@@ -1,4 +1,6 @@
 import './style.css'
+import accounts
+ from './data';
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
