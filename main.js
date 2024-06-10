@@ -9,6 +9,13 @@ class Account{
     this.pin = pin;
   }
 
+  calculateBalance() {
+    let result;
+    this.movements.forEach(movement => {
+      result += movement
+    })
+    return result;
+  }
   // addTransaction() {
 
   // }
@@ -24,5 +31,5 @@ class AccountManager{
     this.accountsArray.push(account)
   }
 
-
+  deposit()
 }
