@@ -9,13 +9,21 @@ class Account{
     this.pin = pin;
   }
 
-  calculateBalance() {
+  getCurrentBalance() {
     let result;
     this.movements.forEach(movement => {
       result += movement
     })
     return result;
   }
+
+  makeMovement(amount) {
+    this.movements.push(amount);
+  }
+
+
+
+
   // addTransaction() {
 
   // }
@@ -28,8 +36,11 @@ class AccountManager{
   }
 
   addAccount(account) {
-    this.accountsArray.push(account)
+    this.accountsArray.push(account);
   }
 
-  deposit()
+  reciveDeposit(userId, amount) {
+    const user = this.accountsArray.find(user => user.id === userId);
+    user.movements.push(amount);
+  }
 }
