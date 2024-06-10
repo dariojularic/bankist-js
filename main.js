@@ -1,6 +1,5 @@
 import './style.css'
-import accounts
- from './data';
+import accounts from './data';
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
@@ -23,6 +22,10 @@ class Account{
     this.movements.push(amount);
   }
 
+  requestLoan(amount) {
+    this.movements.push(amount)
+    // ubacit interestRate
+  }
 
 
 
