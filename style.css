@@ -5,6 +5,10 @@ body {
   height: 100vh;
 }
 
+header {
+  border: 1px solid blue;
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr 250px;
