@@ -18,8 +18,10 @@ class Account{
     return result;
   }
 
-  makeMovement(amount) {
-    this.movements.push(amount);
+  // provjerit
+  makeMovement(amount, receiver) {
+    this.movements.push(-amount);
+    receiver.movements.push(amount)
   }
 
   requestLoan(amount) {
@@ -64,8 +66,8 @@ class AccountManager{
 const accountManager = new AccountManager();
 accounts.forEach(acc => {
   // console.log(acc.owner)
+  // ocu ovdje ubacit for loop i dodat username???
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
   accountManager.addAccount(account)
   account.addUserName(accountManager.accountsArray)
-  console.log(account) 
 })
