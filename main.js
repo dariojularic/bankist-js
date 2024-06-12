@@ -25,7 +25,8 @@ class Account{
   }
 
   requestLoan(amount) {
-    this.movements.push(amount)
+    setTimeout(3000, () => this.movements.push(amount))
+    // this.movements.push(amount)
     // ubacit interestRate
   }
 
