@@ -27,6 +27,17 @@ class Account{
     // ubacit interestRate
   }
 
+  // ovo vjv treba prepravit
+  addUserName(array) {
+    array.forEach(acc => {
+      let initials = ""
+      for (let i = 0; i < acc.fullName.split(" ").length; i++) {
+        initials += acc.fullName.split(" ")[i][0]
+      }
+      acc.userName = initials.toLocaleLowerCase()
+    })
+  }
+
 
 
   // addTransaction() {
@@ -49,3 +60,12 @@ class AccountManager{
     user.movements.push(amount);
   }
 }
+
+const accountManager = new AccountManager();
+accounts.forEach(acc => {
+  // console.log(acc.owner)
+  const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
+  accountManager.addAccount(account)
+  account.addUserName(accountManager.accountsArray)
+  console.log(account) 
+})
