@@ -1,7 +1,8 @@
 body {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100vh;
 }
 
@@ -16,4 +17,31 @@ header {
   height: 600px;
   width: 800px;
   border: 1px solid red;
+  gap: 4px;
+  }
+  
+.movements-list {
+  border: 1px solid red;
+  grid-area: 2 / 1 / 5 / 2;
+  padding: 0;
+  margin: 0;
+  }
+  
+.current-balance {
+  grid-area: 1 / 1 / 2 / 3; 
+  }
+  
+.transfer-money {
+  grid-area: 2 / 2 / 3 / 3; 
+  
+  }
+  
+.request-loan {
+  grid-area: 3 / 2 / 4 / 3; 
+  
+}
+  
+.close-account {
+  grid-area: 4 / 2 / 5 / 3; 
+
 }
