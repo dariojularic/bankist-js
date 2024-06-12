@@ -43,5 +43,12 @@ header {
   
 .close-account {
   grid-area: 4 / 2 / 5 / 3; 
+}
 
+.summary {
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+.logout-timer {
+  grid-area: 5 / 2 / 6 / 3;
 }
