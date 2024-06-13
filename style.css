@@ -52,3 +52,7 @@ header {
 .logout-timer {
   grid-area: 5 / 2 / 6 / 3;
 }
+
+.logout-timer {
+  grid-area: 5 / 2 / 6 / 3;
+}
