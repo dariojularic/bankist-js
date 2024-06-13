@@ -28,3 +28,18 @@ const account1 = {
   
   const accounts = [account1, account2, account3, account4];
   export default accounts;
+
+
+
+
+
+// softskills nadopisat u cv, agile praktiken
+// smanjit berufserfahrung i povecat webdev stvari, dodat sliku, dodat stranicu 
+// dizajnerski bewerbung mora bit slicniji cvu
+// zuversuchlich* solides* zu leisten*
+// storytelling bewerbung
+// honeypot, instaffo, wearedevelopers, workwise, bechtle
+// gledat starnicu na koju se prijavljujem kao webedev i rec da mi se svida kako je napravljena
+// linkdin webdev umjesto selfemployed, skills, about me sekcija, slika, pozadinska slika
+// grunderszene munchen 
+// certifikati python, docker, cybersecurity, javascript, react, node
