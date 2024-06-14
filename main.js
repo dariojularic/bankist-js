@@ -17,58 +17,63 @@ class Account{
     })
     return result;
   }
+  
+  addPositiveMovement(amount) {
+    this.movements.push(amount)
+  }
 
-  // provjerit
-  makeMovement(amount, receiver) {
-    this.movements.push(-amount);
-    receiver.movements.push(amount)
+  addNegativeMovement(amount) {
+    this.movements.push(-amount)
   }
 
   requestLoan(amount) {
-    setTimeout(3000, () => this.movements.push(amount))
-    // this.movements.push(amount)
+    let result;
+    const positiveMovements = this.movements.filter(movement => movement > 0)
+    positiveMovements.forEach(movement => {
+      result += movement
+    })
+    if (amount < result) setTimeout(3000, () => this.movements.push(amount))
+    // else tostify
+
+    // loan ne moze biti veci od in sekcije
+    // setTimeout(3000, () => this.movements.push(amount))
     // ubacit interestRaten
   }
-
-  // ovo vjv treba prepravit
-  addUserName(array) {
-    array.forEach(acc => {
-      let initials = ""
-      for (let i = 0; i < acc.fullName.split(" ").length; i++) {
-        initials += acc.fullName.split(" ")[i][0]
-      }
-      acc.userName = initials.toLocaleLowerCase()
-    })
-  }
-
-
-
-  // addTransaction() {
-
-  // }
 }
 
 class AccountManager{
-  // const accountsArray;
+  // ocu ostavit ili izbrisat donju liniju?
+  accountsArray;
   constructor() {
     this.accountsArray = [];
+  }
+
+  // sta ako je ime get funkcije isto kao i ime statea?
+  get accountsArr() {
+    // console.log("gaga")
+    return this.accountsArray;
+  }
+
+  createUserNames() {
+    this.accountsArray.forEach(acc => {
+      acc.userName = acc.fullName.toLocaleLowerCase().split(" ").map(name => name[0]).join("")
+    })
   }
 
   addAccount(account) {
     this.accountsArray.push(account);
   }
 
-  reciveDeposit(userId, amount) {
-    const user = this.accountsArray.find(user => user.id === userId);
-    user.movements.push(amount);
-  }
+  // micem iz class i prebacujem u eventListener
+  // reciveDeposit(userId, amount) {
+  //   const user = this.accountsArray.find(user => user.id === userId);
+  //   user.movements.push(amount);
+  // }
 }
 
 const accountManager = new AccountManager();
 accounts.forEach(acc => {
-  // console.log(acc.owner)
-  // ocu ovdje ubacit for loop i dodat username???
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
   accountManager.addAccount(account)
-  account.addUserName(accountManager.accountsArray)
 })
+accountManager.createUserNames()

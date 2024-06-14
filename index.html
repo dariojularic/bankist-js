@@ -19,9 +19,38 @@
     <div class="container">
       <div class="current-balance"></div>
       <ol class="movements-list"></ol>
-      <div class="transfer-money"></div>
-      <div class="request-loan"></div>
-      <div class="close-account"></div>
+      <div class="transfer-money">
+        <h4>Transfer money</h4>
+        <form action="" class="transfer-form">
+          <div>
+            <input type="text" id="transfer-to" class="transfer-to-input">
+            <label for="transfer-to">Transfer to</label>
+          </div>
+          <div>
+            <input type="number" id="transfer-amount">
+            <label for="transfer-amount">Amount</label>
+          </div>
+          <button></button>
+        </form>
+      </div>
+      <div class="request-loan">
+        <h4>Request loan</h4>
+        <form action="" class="loan-form">
+          <input type="number" id="loan-amount">
+          <label for="loan-amount">Amount</label>
+          <button></button>
+        </form>
+      </div>
+      <div class="close-account">
+        <h4>Close account</h4>
+        <form action="" class="close-account-form">
+          <input type="text" id="close-account-user">
+          <label for="close-account-user">Confirm user</label>
+          <input type="text" id="close-account-pin">
+          <label for="close-account-pin"></label>
+          <button></button>
+        </form>
+      </div>
       <div class="summary"></div>
       <div class="logout-timer"></div>
     </div>
