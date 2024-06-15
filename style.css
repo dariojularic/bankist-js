@@ -6,8 +6,15 @@ body {
   height: 100vh;
 }
 
-header {
-  border: 1px solid blue;
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fa-building-columns {
+  font-size: 40px;
 }
 
 .container {
@@ -17,7 +24,7 @@ header {
   height: 700px;
   width: 1100px;
   border: 1px solid red;
-  gap: 4px;
+  gap: 8px;
   }
   
 .movements-list {
@@ -65,12 +72,12 @@ header {
 }
 
 input {
-  width: 150px;
-  border-radius: 8px;
+  width: 120px;
+  border-radius: 16px;
   height: 32px;
   border: 1px solid gray;
   background-color: rgba(255, 255, 255, 0.4);
-
+  padding-left: 8px;
 }
 
 label {
@@ -80,4 +87,6 @@ label {
 button {
   background-color: #fff;
   border: none;
+  cursor: pointer;
+
 }

@@ -1,6 +1,8 @@
 import './style.css'
 import accounts from './data';
 
+const greeting = document.querySelector(".greeting");
+
 class Account{
   constructor(fullName, movements, interestRate, pin) {
     this.fullName = fullName;
