@@ -12,6 +12,10 @@ const timer = document.querySelector(".logout-timer");
 const signInForm = document.querySelector(".sign-in");
 const userInput = document.querySelector(".user-input");
 const pinInput = document.querySelector(".pin-input");
+const transferForm = document.querySelector(".transfer-form");
+const transferToInput = document.querySelector(".transfer-to-input");
+const transferAmount = document.querySelector(".transfer-amount");
+
 
 
 class Account{
@@ -155,6 +159,8 @@ signInForm.addEventListener("submit", (event) => {
   accountManager.accountsArr.forEach(acc => {
     // console.log(acc.userName, acc.pin)
     if (acc.userName === userInput.value && acc.pin === parseInt(pinInput.value)) {
+      accountManager.currentAccount = acc
+      console.log(accountManager.currentAccount)
       acc.renderMovements()
       displayGreeting(acc)
       displayCurrentBalance(acc)
@@ -162,4 +168,9 @@ signInForm.addEventListener("submit", (event) => {
       displaySummaryOut(acc.allMovements)
     }
   })
+})
+
+transferForm.addEventListener("submit", (event) => {
+  const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
+  transferToInput.value
 })
