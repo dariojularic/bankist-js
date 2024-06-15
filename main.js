@@ -48,6 +48,13 @@ class Account{
     // setTimeout(3000, () => this.movements.push(amount))
     // ubacit interestRaten
   }
+
+  renderMovements() {
+    this.movements.forEach(movement => {
+      const html = `<li>${this.movements.indexOf(movement) + 1} ${movement}</li>`
+      movementsList.insertAdjacentHTML("afterbegin", html)
+    })
+  }
 }
 
 class AccountManager{
@@ -59,7 +66,6 @@ class AccountManager{
 
   // sta ako je ime get funkcije isto kao i ime statea?
   get accountsArr() {
-    // console.log("gaga")
     return this.accountsArray;
   }
 
@@ -80,9 +86,35 @@ class AccountManager{
   // }
 }
 
+function displayGreeting(account) {
+  greeting.textContent = `Good morning ${account.fullName.split(" ")[0]}`
+}
+
+function displayCurrentBalance(account) {
+  balanceValue.textContent = `${account.getCurrentBalance()}`
+}
+
+function displaySummaryIn(movements) {
+  let result;
+  movements.forEach(movement => {
+    if (movement > 0) result += movement
+  })
+  inValue.textContent = `${result} €`
+}
+
+function displaySummaryOut(movements) {
+  let result;
+  movements.forEach(movement => {
+    if (movement < 0) result += movement
+  })
+  outValue.textContent = `${result} €`
+}
+
 const accountManager = new AccountManager();
 accounts.forEach(acc => {
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
   accountManager.addAccount(account)
+  // console.log(account.renderMovements())
 })
+
 accountManager.createUserNames()

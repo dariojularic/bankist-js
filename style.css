@@ -54,10 +54,6 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-.transfer-to-input {
-  /* background-color: rgba(255, 255, 255, 0.4); */
-}
-  
 .request-loan {
   grid-area: 3 / 2 / 4 / 3; 
   background-image: linear-gradient(to top left, #39b385, #9be15d);
