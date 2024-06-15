@@ -5,7 +5,10 @@ const greeting = document.querySelector(".greeting");
 const balanceDate = document.querySelector(".balance-date");
 const balanceValue = document.querySelector(".balance-value");
 const movementsList = document.querySelector(".movements-list");
-
+const inValue = document.querySelector(".summary-in-value");
+const outValue = document.querySelector(".summary-out-value");
+const interestValue = document.querySelector(".interest-value");
+const timer = document.querySelector(".logout-timer");
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
