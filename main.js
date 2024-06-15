@@ -172,5 +172,4 @@ signInForm.addEventListener("submit", (event) => {
 
 transferForm.addEventListener("submit", (event) => {
   const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
-  transferToInput.value
 })
