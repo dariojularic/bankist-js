@@ -82,11 +82,20 @@ class AccountManager{
   accountsArray;
   constructor() {
     this.accountsArray = [];
+    this.acctiveAccount = ""
   }
 
   // sta ako je ime get funkcije isto kao i ime statea?
   get accountsArr() {
     return this.accountsArray;
+  }
+
+  set currentAccount(account) {
+    this.acctiveAccount = account;
+  }
+
+  get currentAccount() {
+    return this.acctiveAccount;
   }
 
   createUserNames() {
