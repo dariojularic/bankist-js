@@ -9,18 +9,28 @@ const inValue = document.querySelector(".summary-in-value");
 const outValue = document.querySelector(".summary-out-value");
 const interestValue = document.querySelector(".interest-value");
 const timer = document.querySelector(".logout-timer");
+const signInForm = document.querySelector(".sign-in");
+const userInput = document.querySelector(".user-input");
+const pinInput = document.querySelector(".pin-input");
+
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
     this.fullName = fullName;
     this.movements = movements;
     this.interestRate = interestRate;
+    // ocu ovdje dodat interestAmount da bi ga mogao displayat
     this.id = self.crypto.randomUUID();
     this.pin = pin;
   }
 
+  get allMovements() {
+    return this.movements
+  }
+
   getCurrentBalance() {
-    let result;
+    let result = 0;
+    // zasto ne radi ako napisem samo let result??
     this.movements.forEach(movement => {
       result += movement
     })
@@ -41,8 +51,18 @@ class Account{
     positiveMovements.forEach(movement => {
       result += movement
     })
-    if (amount < result) setTimeout(3000, () => this.movements.push(amount))
-    // else tostify
+    if (amount < result) {
+      const interest = (amount * this.interestRate) - amount
+      setTimeout(3000, () => {
+        this.movements.push(amount)
+        // ovdje treba ubacit interestValue ako cu ga koristit
+      }) 
+    } else {
+      Toastify({
+        text: "The bank doesn't allow that loan!",
+        duration: 3000
+      }).showToast();
+    }
 
     // loan ne moze biti veci od in sekcije
     // setTimeout(3000, () => this.movements.push(amount))
@@ -91,11 +111,12 @@ function displayGreeting(account) {
 }
 
 function displayCurrentBalance(account) {
+  // console.log(account.getCurrentBalance())
   balanceValue.textContent = `${account.getCurrentBalance()}`
 }
 
 function displaySummaryIn(movements) {
-  let result;
+  let result = 0;
   movements.forEach(movement => {
     if (movement > 0) result += movement
   })
@@ -103,7 +124,7 @@ function displaySummaryIn(movements) {
 }
 
 function displaySummaryOut(movements) {
-  let result;
+  let result = 0;
   movements.forEach(movement => {
     if (movement < 0) result += movement
   })
@@ -114,7 +135,22 @@ const accountManager = new AccountManager();
 accounts.forEach(acc => {
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
   accountManager.addAccount(account)
-  // console.log(account.renderMovements())
 })
 
 accountManager.createUserNames()
+
+signInForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // ocu dolje stavit find metodu?
+  // console.log(userInput.value, pinInput.value)
+  accountManager.accountsArr.forEach(acc => {
+    // console.log(acc.userName, acc.pin)
+    if (acc.userName === userInput.value && acc.pin === parseInt(pinInput.value)) {
+      acc.renderMovements()
+      displayGreeting(acc)
+      displayCurrentBalance(acc)
+      displaySummaryIn(acc.allMovements)
+      displaySummaryOut(acc.allMovements)
+    }
+  })
+})
