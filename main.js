@@ -2,6 +2,10 @@ import './style.css'
 import accounts from './data';
 
 const greeting = document.querySelector(".greeting");
+const balanceDate = document.querySelector(".balance-date");
+const balanceValue = document.querySelector(".balance-value");
+const movementsList = document.querySelector(".movements-list");
+
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {

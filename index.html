@@ -14,11 +14,17 @@
       <form action="" class="sign-in">
         <input type="text" placeholder="username">
         <input type="text" placeholder="PIN">
-        <button><i class="fa-solid fa-arrow-right"></i></button>
+        <button class=" login-btn"><i class="fa-solid fa-arrow-right"></i></button>
       </form>
     </nav>
     <div class="container">
-      <div class="current-balance"></div>
+      <div class="current-balance">
+        <div class="balance-date-div">
+          <p>Current balance</p>
+          <p class="balance-date"></p>
+        </div>
+        <p class="balance-value"></p>
+      </div>
       <ol class="movements-list"></ol>
       <div class="transfer-money">
         <h4>Transfer money</h4>
@@ -52,7 +58,15 @@
           <button><i class="fa-solid fa-arrow-right"></i></button>
         </form>
       </div>
-      <div class="summary"></div>
+      <div class="summary">
+        <p>IN</p>
+        <p class="summary-in-value"></p>
+        <p>OUT</p>
+        <p class="summary-out-value"></p>
+        <p>INTEREST</p>
+        <p class="interest-value"></p>
+        <button class="sort-btn">SORT</button>
+      </div>
       <div class="logout-timer"></div>
     </div>
     <script type="module" src="/main.js"></script>
