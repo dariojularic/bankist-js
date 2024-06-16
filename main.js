@@ -37,13 +37,22 @@ class Account{
     return this.movements
   }
 
-  getCurrentBalance() {
+  get currentBalance() {
     let result = 0;
     // zasto ne radi ako napisem samo let result??
     this.movements.forEach(movement => {
       result += movement
     })
     return result;
+  }
+
+  get interestAmount() {
+    let result = 0;
+    const positiveMovements = this.movements.filter(movement => movement > 0)
+    positiveMovements.forEach(movement => {
+      result += movement;
+    })
+    return result * this.interestRate
   }
   
   addPositiveMovement(amount) {
@@ -135,7 +144,7 @@ function displayGreeting(account) {
 
 function displayCurrentBalance(account) {
   // console.log(account.getCurrentBalance())
-  balanceValue.textContent = `${account.getCurrentBalance()}`
+  balanceValue.textContent = `${account.currentBalance}`
 }
 
 function displaySummaryIn(movements) {
@@ -154,6 +163,10 @@ function displaySummaryOut(movements) {
   outValue.textContent = `${result} €`
 }
 
+function displayInterestAmount(amount) {
+  interestValue.textContent = amount
+}
+
 const accountManager = new AccountManager();
 accounts.forEach(acc => {
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
@@ -170,12 +183,14 @@ signInForm.addEventListener("submit", (event) => {
     // console.log(acc.userName, acc.pin)
     if (acc.userName === userInput.value && acc.pin === parseInt(pinInput.value)) {
       accountManager.currentAccount = acc
-      console.log(accountManager.currentAccount)
-      acc.renderMovements()
-      displayGreeting(acc)
-      displayCurrentBalance(acc)
-      displaySummaryIn(acc.allMovements)
-      displaySummaryOut(acc.allMovements)
+
+      accountManager.currentAccount.renderMovements()
+      displayGreeting(accountManager.currentAccount)
+      displayCurrentBalance(accountManager.currentAccount)
+      displaySummaryIn(accountManager.currentAccount.allMovements)
+      displaySummaryOut(accountManager.currentAccount.allMovements)
+      displayInterestAmount(accountManager.currentAccount.interestAmount)
+      
       userInput.value = ""
       pinInput.value = ""
     }
@@ -186,7 +201,7 @@ transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
 
-  if (accountManager.currentAccount.getCurrentBalance() > transferAmount.value && reciever) {
+  if (accountManager.currentAccount.currentBalance() > transferAmount.value && reciever) {
     accountManager.currentAccount.addNegativeMovement(transferAmount.value);
     reciever.addPositiveMovement(transferAmount.value);
     transferAmount.value = "";
@@ -197,7 +212,7 @@ transferForm.addEventListener("submit", (event) => {
 
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.getCurrentBalance()) {
+  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.currentBalance()) {
     setTimeout(3000, () => {
       accountManager.currentAccount.addPositiveMovement(loanAmountInput.value)  
     })
