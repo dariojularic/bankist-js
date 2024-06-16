@@ -20,11 +20,10 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 250px;
+  grid-template-columns: 1fr 480px;
   grid-template-rows: 80px 1fr 1fr 1fr 60px;
   height: 600px;
   width: 800px;
-  border: 1px solid red;
   gap: 16px;
   }
   
@@ -46,6 +45,8 @@ body {
   grid-area: 2 / 2 / 3 / 3; 
   /* background-color: ; */
   background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+  padding: 24px 32px;
+  border-radius: 16px;
 }
 
 .transfer-form {
@@ -60,11 +61,28 @@ body {
 .request-loan {
   grid-area: 3 / 2 / 4 / 3; 
   background-image: linear-gradient(to top left, #39b385, #9be15d);
+  padding: 24px 32px;
+  border-radius: 16px;
 }
   
 .close-account {
   grid-area: 4 / 2 / 5 / 3; 
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  padding: 24px 32px;
+  border-radius: 16px;
+}
+
+.transfer-amount-div {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.transfer-to-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
 }
 
 .summary {
