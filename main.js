@@ -15,6 +15,9 @@ const pinInput = document.querySelector(".pin-input");
 const transferForm = document.querySelector(".transfer-form");
 const transferToInput = document.querySelector(".transfer-to-input");
 const transferAmount = document.querySelector(".transfer-amount-input");
+const closeAccountForm = document.querySelector(".close-account-form");
+const closeUserInput = document.querySelector(".close-account-user");
+const closePinInput = document.querySelector(".close-account-pin");
 
 
 
@@ -183,5 +186,13 @@ transferForm.addEventListener("submit", (event) => {
     transferAmount.value = ""
     transferToInput.value = ""
     accountManager.currentAccount.renderMovements()
+  }
+})
+
+closeAccountForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // jel mi trebaju tu dole get metode za userName i Pin?
+  if (closeUserInput.value === accountManager.currentAccount.userName && closePinInput.value === accountManager.currentAccount.pin) {
+    
   }
 })
