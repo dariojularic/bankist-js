@@ -166,6 +166,8 @@ signInForm.addEventListener("submit", (event) => {
       displayCurrentBalance(acc)
       displaySummaryIn(acc.allMovements)
       displaySummaryOut(acc.allMovements)
+      userInput.value = ""
+      pinInput.value = ""
     }
   })
 })
