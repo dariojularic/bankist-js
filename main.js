@@ -14,7 +14,7 @@ const userInput = document.querySelector(".user-input");
 const pinInput = document.querySelector(".pin-input");
 const transferForm = document.querySelector(".transfer-form");
 const transferToInput = document.querySelector(".transfer-to-input");
-const transferAmount = document.querySelector(".transfer-amount");
+const transferAmount = document.querySelector(".transfer-amount-input");
 
 
 
@@ -74,6 +74,7 @@ class Account{
   }
 
   renderMovements() {
+    movementsList.innerHTML = ""
     this.movements.forEach(movement => {
       const html = `<li>${this.movements.indexOf(movement) + 1} ${movement}</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
@@ -173,5 +174,14 @@ signInForm.addEventListener("submit", (event) => {
 })
 
 transferForm.addEventListener("submit", (event) => {
+  event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
+
+  if (accountManager.currentAccount.getCurrentBalance() > transferAmount.value && reciever) {
+    accountManager.currentAccount.addNegativeMovement(transferAmount.value)
+    reciever.addPositiveMovement(transferAmount.value)
+    transferAmount.value = ""
+    transferToInput.value = ""
+    accountManager.currentAccount.renderMovements()
+  }
 })
