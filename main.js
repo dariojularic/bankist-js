@@ -18,6 +18,8 @@ const transferAmount = document.querySelector(".transfer-amount-input");
 const closeAccountForm = document.querySelector(".close-account-form");
 const closeUserInput = document.querySelector(".close-account-user");
 const closePinInput = document.querySelector(".close-account-pin");
+const loanForm = document.querySelector(".loan-form");
+const loanAmountInput = document.querySelector(".loan-amount-input");
 
 
 
@@ -185,23 +187,25 @@ transferForm.addEventListener("submit", (event) => {
   const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
 
   if (accountManager.currentAccount.getCurrentBalance() > transferAmount.value && reciever) {
-    accountManager.currentAccount.addNegativeMovement(transferAmount.value)
-    reciever.addPositiveMovement(transferAmount.value)
-    transferAmount.value = ""
-    transferToInput.value = ""
-    accountManager.currentAccount.renderMovements()
+    accountManager.currentAccount.addNegativeMovement(transferAmount.value);
+    reciever.addPositiveMovement(transferAmount.value);
+    transferAmount.value = "";
+    transferToInput.value = "";
+    accountManager.currentAccount.renderMovements();
   }
+})
+
+loanForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  
 })
 
 closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log(closePinInput.value)
-  console.log("closePinInput.value")
-  console.log(accountManager.currentAccount.pin)
   // jel mi trebaju tu dole get metode za userName i Pin?
   if (closeUserInput.value === accountManager.currentAccount.userName && parseInt(closePinInput.value) === accountManager.currentAccount.pin) {
-    accountManager.deleteAccount()
-    // accountManager.currentAccount = ""
+    accountManager.deleteAccount();
+    accountManager.currentAccount = "";
     closePinInput.value = "";
     closeUserInput.value = "";
   }
