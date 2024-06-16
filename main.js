@@ -193,6 +193,6 @@ closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // jel mi trebaju tu dole get metode za userName i Pin?
   if (closeUserInput.value === accountManager.currentAccount.userName && closePinInput.value === accountManager.currentAccount.pin) {
-    
+  
   }
 })
