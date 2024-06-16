@@ -116,6 +116,10 @@ class AccountManager{
     this.accountsArray.push(account);
   }
 
+  deleteAccount() {
+    this.accountsArray = this.accountsArray.filter(account => account !== this.currentAccount)
+  }
+
   // micem iz class i prebacujem u eventListener
   // reciveDeposit(userId, amount) {
   //   const user = this.accountsArray.find(user => user.id === userId);
@@ -191,8 +195,14 @@ transferForm.addEventListener("submit", (event) => {
 
 closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  console.log(closePinInput.value)
+  console.log("closePinInput.value")
+  console.log(accountManager.currentAccount.pin)
   // jel mi trebaju tu dole get metode za userName i Pin?
-  if (closeUserInput.value === accountManager.currentAccount.userName && closePinInput.value === accountManager.currentAccount.pin) {
-  
+  if (closeUserInput.value === accountManager.currentAccount.userName && parseInt(closePinInput.value) === accountManager.currentAccount.pin) {
+    accountManager.deleteAccount()
+    // accountManager.currentAccount = ""
+    closePinInput.value = "";
+    closeUserInput.value = "";
   }
 })
