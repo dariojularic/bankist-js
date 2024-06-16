@@ -197,7 +197,16 @@ transferForm.addEventListener("submit", (event) => {
 
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  
+  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.getCurrentBalance()) {
+    setTimeout(3000, () => {
+      accountManager.currentAccount.addPositiveMovement(loanAmountInput.value)  
+    })
+  } else {
+    Toastify({
+      text: "The bank doesn't allow that loan!",
+      duration: 3000
+    }).showToast();
+  }
 })
 
 closeAccountForm.addEventListener("submit", (event) => {

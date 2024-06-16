@@ -33,7 +33,7 @@ body {
   padding: 0;
   margin: 0;
   list-style-type: none;
-  }
+}
   
 .current-balance {
   grid-area: 1 / 1 / 2 / 3; 
