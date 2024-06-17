@@ -51,6 +51,12 @@ class Account{
     this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
     return result;
   }
+
+  getNegativeMovements() {
+    let result = 0;
+    this.movements.filter(movement => movement < 0).forEach(movement => result += movement)
+    return result;
+  }  
   // get funkcia koja uzima sve pozitivne movementse i zbraja ih i vraca
 
   get interestAmount() {
@@ -103,7 +109,6 @@ class AccountManager{
     this.acctiveAccount = ""
   }
 
-  // sta ako je ime get funkcije isto kao i ime statea?
   get accountsArr() {
     return this.accountsArray;
   }
@@ -129,42 +134,25 @@ class AccountManager{
   deleteAccount() {
     this.accountsArray = this.accountsArray.filter(account => account !== this.currentAccount)
   }
-
-  // micem iz class i prebacujem u eventListener
-  // reciveDeposit(userId, amount) {
-  //   const user = this.accountsArray.find(user => user.id === userId);
-  //   user.movements.push(amount);
-  // }
 }
 
 function displayGreeting(account) {
   greeting.textContent = `Good morning, ${account.fullName.split(" ")[0]}`
 }
-
-
-// 
+ 
 function displayCurrentBalance(account) {
-  // console.log(account.getCurrentBalance())
   balanceValue.textContent = `${account.currentBalance.toLocaleString("de-DE", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   })} €`
 }
 
-function displaySummaryIn(movements) {
-  let result = 0;
-  movements.forEach(movement => {
-    if (movement > 0) result += movement
-  })
-  inValue.textContent = `${result} €`
+function displaySummaryIn(positiveMovements) {
+  inValue.textContent = `${positiveMovements} €`
 }
 
-function displaySummaryOut(movements) {
-  let result = 0;
-  movements.forEach(movement => {
-    if (movement < 0) result += movement
-  })
-  outValue.textContent = `${result} €`
+function displaySummaryOut(negativeMovements) {
+  outValue.textContent = `${negativeMovements} €`
 }
 
 function displayInterestAmount(amount) {
