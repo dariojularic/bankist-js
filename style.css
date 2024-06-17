@@ -20,7 +20,7 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 480px;
+  grid-template-columns: 1fr 400px;
   grid-template-rows: 80px 1fr 1fr 1fr 60px;
   height: 600px;
   width: 800px;
@@ -77,6 +77,22 @@ body {
   border-radius: 16px;
 }
 
+.close-account-form {
+  display: flex;
+}
+
+.close-user-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close-pin-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .transfer-amount-div {
  display: flex;
  flex-direction: column;
@@ -110,8 +126,12 @@ input {
   padding-left: 8px;
 }
 
-label {
-  align-self: center;
+.user-btn {
+  height: 32px;
+  width: 56px;
+  border-radius: 8px;
+  margin: 0 8px;
+  background-color: #f3f3f3;
 }
 
 button {
@@ -123,7 +143,9 @@ button {
 li {
   background-color: white;
   /* margin: 16px 0; */
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid #eee;
+  padding: 8px 16px;
+  height: 32px;
 }
 
 h4 {
@@ -133,5 +155,9 @@ h4 {
 .input-label-loan {
   display: flex;
   flex-direction: column;
+}
 
+label {
+  align-self: center;
+  font-size: 16px;
 }
