@@ -22,16 +22,16 @@ const closePinInput = document.querySelector(".close-account-pin");
 const loanForm = document.querySelector(".loan-form");
 const loanAmountInput = document.querySelector(".loan-amount-input");
 const container = document.querySelector(".container");
-
+// tu idu varijable za input eventListener
 
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
+    this.id = self.crypto.randomUUID();
     this.fullName = fullName;
     this.movements = movements;
     this.interestRate = interestRate;
     // ocu ovdje dodat interestAmount da bi ga mogao displayat
-    this.id = self.crypto.randomUUID();
     this.pin = pin;
   }
 
@@ -48,12 +48,12 @@ class Account{
     return result;
   }
 
+
+  // get funkcia koja uzima sve pozitivne movementse i zbraja ih i vraca
+
   get interestAmount() {
     let result = 0;
-    const positiveMovements = this.movements.filter(movement => movement > 0)
-    positiveMovements.forEach(movement => {
-      result += movement;
-    })
+    this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
     return result * this.interestRate
   }
   
@@ -92,7 +92,7 @@ class Account{
   renderMovements() {
     movementsList.innerHTML = ""
     this.movements.forEach(movement => {
-      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${movement}€</li>`
+      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${movement.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
     })
   }
@@ -144,6 +144,8 @@ function displayGreeting(account) {
   greeting.textContent = `Good morning, ${account.fullName.split(" ")[0]}`
 }
 
+
+// 
 function displayCurrentBalance(account) {
   // console.log(account.getCurrentBalance())
   balanceValue.textContent = `${account.currentBalance.toLocaleString("de-DE", {
@@ -184,6 +186,10 @@ signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // ocu dolje stavit find metodu?
   // console.log(userInput.value, pinInput.value)
+
+  // const currentAccount = accoutsArray.find(acc => userName i PIN)
+  // if (!currentAccount)
+  //  return
   accountManager.accountsArr.forEach(acc => {
     // console.log(acc.userName, acc.pin)
     if (acc.userName === userInput.value && acc.pin === parseInt(pinInput.value)) {
@@ -206,16 +212,36 @@ signInForm.addEventListener("submit", (event) => {
 transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
-
-  if (accountManager.currentAccount.currentBalance() > transferAmount.value && reciever) {
-    accountManager.currentAccount.addNegativeMovement(transferAmount.value);
-    reciever.addPositiveMovement(transferAmount.value);
-    transferAmount.value = "";
-    transferToInput.value = "";
-    accountManager.currentAccount.renderMovements();
+// posebna metoda isValidBalance
+  // if (nesto)
+    // return
+  // fafmaoegfa
+  if (accountManager.currentAccount.currentBalance < transferAmount.value || !reciever)  {
+    Toastify({
+      text: "The bank doesn't allow that loan!",
+      duration: 3000
+    }).showToast();
+    return
   }
+  accountManager.currentAccount.addNegativeMovement(transferAmount.value);
+  reciever.addPositiveMovement(transferAmount.value);
+  transferAmount.value = "";
+  transferToInput.value = "";
+  accountManager.currentAccount.renderMovements();
+  displayCurrentBalance(accountManager.currentAccount)
+
+  // if (accountManager.currentAccount.currentBalance > transferAmount.value && reciever) {
+  //   accountManager.currentAccount.addNegativeMovement(transferAmount.value);
+  //   reciever.addPositiveMovement(transferAmount.value);
+  //   transferAmount.value = "";
+  //   transferToInput.value = "";
+  //   accountManager.currentAccount.renderMovements();
+  //   displayCurrentBalance(accountManager.currentAccount)
+  // }
 })
 
+
+// eventListener za svaki input
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log(accountManager.currentAccount.currentBalance)
