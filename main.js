@@ -31,7 +31,6 @@ class Account{
     this.fullName = fullName;
     this.movements = movements;
     this.interestRate = interestRate;
-    // ocu ovdje dodat interestAmount da bi ga mogao displayat
     this.pin = pin;
   }
 
@@ -41,20 +40,24 @@ class Account{
 
   get currentBalance() {
     let result = 0;
-    // zasto ne radi ako napisem samo let result??
     this.movements.forEach(movement => {
       result += movement
     })
     return result;
   }
 
-
+  getPositiveMovements() {
+    let result = 0;
+    this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
+    return result;
+  }
   // get funkcia koja uzima sve pozitivne movementse i zbraja ih i vraca
 
   get interestAmount() {
-    let result = 0;
-    this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
-    return result * this.interestRate
+    // let result = 0;
+    // this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
+    // return result * this.interestRate
+    return this.getPositiveMovements() * this.interestRate
   }
   
   addPositiveMovement(amount) {
@@ -66,12 +69,7 @@ class Account{
   }
 
   requestLoan(amount) {
-    let result;
-    const positiveMovements = this.movements.filter(movement => movement > 0)
-    positiveMovements.forEach(movement => {
-      result += movement
-    })
-    if (amount < result) {
+    if (amount < this.getPositiveMovements()) {
       const interest = (amount * this.interestRate) - amount
       setTimeout(3000, () => {
         this.movements.push(amount)
@@ -99,7 +97,6 @@ class Account{
 }
 
 class AccountManager{
-  // ocu ostavit ili izbrisat donju liniju?
   accountsArray;
   constructor() {
     this.accountsArray = [];
