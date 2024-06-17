@@ -1,5 +1,6 @@
 import './style.css'
 import accounts from './data';
+import Toastify from 'toastify-js'
 
 const greeting = document.querySelector(".greeting");
 const balanceDate = document.querySelector(".balance-date");
@@ -20,6 +21,7 @@ const closeUserInput = document.querySelector(".close-account-user");
 const closePinInput = document.querySelector(".close-account-pin");
 const loanForm = document.querySelector(".loan-form");
 const loanAmountInput = document.querySelector(".loan-amount-input");
+const container = document.querySelector(".container");
 
 
 
@@ -90,7 +92,7 @@ class Account{
   renderMovements() {
     movementsList.innerHTML = ""
     this.movements.forEach(movement => {
-      const html = `<li>${this.movements.indexOf(movement) + 1} ${movement}</li>`
+      const html = `<li>${this.movements.indexOf(movement) + 1} ${movement}€</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
     })
   }
@@ -139,12 +141,15 @@ class AccountManager{
 }
 
 function displayGreeting(account) {
-  greeting.textContent = `Good morning ${account.fullName.split(" ")[0]}`
+  greeting.textContent = `Good morning, ${account.fullName.split(" ")[0]}`
 }
 
 function displayCurrentBalance(account) {
   // console.log(account.getCurrentBalance())
-  balanceValue.textContent = `${account.currentBalance}`
+  balanceValue.textContent = `${account.currentBalance.toLocaleString("de-DE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })} €`
 }
 
 function displaySummaryIn(movements) {
@@ -190,7 +195,8 @@ signInForm.addEventListener("submit", (event) => {
       displaySummaryIn(accountManager.currentAccount.allMovements)
       displaySummaryOut(accountManager.currentAccount.allMovements)
       displayInterestAmount(accountManager.currentAccount.interestAmount)
-      
+      container.style.transition = "1s"
+      container.style.opacity = 1
       userInput.value = ""
       pinInput.value = ""
     }
@@ -212,10 +218,15 @@ transferForm.addEventListener("submit", (event) => {
 
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.currentBalance()) {
-    setTimeout(3000, () => {
-      accountManager.currentAccount.addPositiveMovement(loanAmountInput.value)  
-    })
+  console.log(accountManager.currentAccount.currentBalance)
+  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.currentBalance) {
+    setTimeout(() => {
+      accountManager.currentAccount.addPositiveMovement(parseInt(loanAmountInput.value))  
+      displayCurrentBalance(accountManager.currentAccount)
+      accountManager.currentAccount.renderMovements()
+      loanAmountInput.value = ""
+      console.log(accountManager.currentAccount.allMovements)
+    }, 3000)
   } else {
     Toastify({
       text: "The bank doesn't allow that loan!",

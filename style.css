@@ -19,20 +19,22 @@ body {
 }
 
 .container {
+  opacity: 0;
   display: grid;
   grid-template-columns: 1fr 400px;
   grid-template-rows: 80px 1fr 1fr 1fr 60px;
   height: 600px;
   width: 800px;
   gap: 16px;
-  }
+  /* transition: 1s; */
+}
   
 .movements-list {
-  border: 1px solid red;
   grid-area: 2 / 1 / 5 / 2;
   padding: 0;
   margin: 0;
   list-style-type: none;
+  overflow: scroll;
 }
   
 .current-balance {
@@ -48,7 +50,6 @@ body {
 
 .transfer-money {
   grid-area: 2 / 2 / 3 / 3; 
-  /* background-color: ; */
   background-image: linear-gradient(to top left, #ffb003, #ffcb03);
   padding: 24px 32px;
   border-radius: 16px;
@@ -106,6 +107,17 @@ body {
  
 }
 
+.balance-value {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.current-balance-paragraph {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+
 .summary {
   grid-area: 5 / 1 / 6 / 2;
   display: flex;
@@ -142,10 +154,9 @@ button {
 
 li {
   background-color: white;
-  /* margin: 16px 0; */
   border-bottom: 2px solid #eee;
   padding: 8px 16px;
-  height: 32px;
+  height: 40px;
 }
 
 h4 {
