@@ -11,19 +11,24 @@ const outValue = document.querySelector(".summary-out-value");
 const interestValue = document.querySelector(".interest-value");
 const timer = document.querySelector(".logout-timer");
 const signInForm = document.querySelector(".sign-in");
-const userInput = document.querySelector(".user-input");
-const pinInput = document.querySelector(".pin-input");
+const signUsernameInput = document.querySelector(".user-input");
+const signPinInput = document.querySelector(".pin-input");
 const transferForm = document.querySelector(".transfer-form");
 const transferToInput = document.querySelector(".transfer-to-input");
-const transferAmount = document.querySelector(".transfer-amount-input");
+const transferAmountInput = document.querySelector(".transfer-amount-input");
 const closeAccountForm = document.querySelector(".close-account-form");
 const closeUserInput = document.querySelector(".close-account-user");
 const closePinInput = document.querySelector(".close-account-pin");
 const loanForm = document.querySelector(".loan-form");
 const loanAmountInput = document.querySelector(".loan-amount-input");
 const container = document.querySelector(".container");
-// tu idu varijable za input eventListener
-
+let transferTo = "";
+let transferAmount = "";
+let loanAmount = "";
+let closeUser = "";
+let closePin = "";
+let signUsername = "";
+let signPin = "";
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
@@ -167,16 +172,29 @@ accounts.forEach(acc => {
 
 accountManager.createUserNames()
 
+// zasto je ovo bolja praksa? jel brze ako je u variabli nego ako stalno idemo .value?
+transferToInput.addEventListener("input", () => transferTo = transferToInput.value)
+
+transferAmountInput.addEventListener("input", () => transferAmount = transferAmountInput.value)
+
+loanAmountInput.addEventListener("input", () => loanAmount = loanAmountInput.value)
+
+closeUserInput.addEventListener("input", () => closeUser = closeUserInput.value)
+
+closePinInput.addEventListener("input", () => closePin = closePinInput.value)
+
+signUsernameInput.addEventListener("input", () => signUsername = signUsernameInput.value)
+
+signPinInput.addEventListener("input", () => signPin = signPinInput.value)
+
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // ocu dolje stavit find metodu?
   // console.log(userInput.value, pinInput.value)
-  const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === userInput.value) && (acc.pin === pinInput.value) )
+  const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === signUsername) && (acc.pin === signPin))
   // const currentAccount = accoutsArray.find(acc => userName i PIN)
   // if (!currentAccount)
   //  return
-
-
     // if (acc.userName !== userInput.value || acc.pin !== parseInt(pinInput.value)) {
   if (!currentAccount) {
     Toastify({
@@ -185,17 +203,17 @@ signInForm.addEventListener("submit", (event) => {
     }).showToast();
     return
   }
-  accountManager.currentAccount = acc
-  accountManager.currentAccount.renderMovements()
-  displayGreeting(accountManager.currentAccount)
-  displayCurrentBalance(accountManager.currentAccount)
-  displaySummaryIn(accountManager.currentAccount.allMovements)
-  displaySummaryOut(accountManager.currentAccount.allMovements)
-  displayInterestAmount(accountManager.currentAccount.interestAmount)
-  container.style.transition = "1s"
-  container.style.opacity = 1
-  userInput.value = ""
-  pinInput.value = ""
+  accountManager.currentAccount = currentAccount;
+  accountManager.currentAccount.renderMovements();
+  displayGreeting(accountManager.currentAccount);
+  displayCurrentBalance(accountManager.currentAccount);
+  displaySummaryIn(accountManager.currentAccount.allMovements);
+  displaySummaryOut(accountManager.currentAccount.allMovements);
+  displayInterestAmount(accountManager.currentAccount.interestAmount);
+  container.style.transition = "1s";
+  container.style.opacity = 1;
+  signUsernameInput.value = "";
+  signPinInput.value = "";
 })
 
 transferForm.addEventListener("submit", (event) => {
@@ -205,24 +223,24 @@ transferForm.addEventListener("submit", (event) => {
   // if (nesto)
     // return
   // fafmaoegfa
-  if (accountManager.currentAccount.currentBalance < transferAmount.value || !reciever)  {
+  if (accountManager.currentAccount.currentBalance < transferAmountInput.value || !reciever)  {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
     }).showToast();
     return
   }
-  accountManager.currentAccount.addNegativeMovement(transferAmount.value);
-  reciever.addPositiveMovement(transferAmount.value);
-  transferAmount.value = "";
+  accountManager.currentAccount.addNegativeMovement(transferAmountInput.value);
+  reciever.addPositiveMovement(transferAmountInput.value);
+  transferAmountInput.value = "";
   transferToInput.value = "";
   accountManager.currentAccount.renderMovements();
   displayCurrentBalance(accountManager.currentAccount)
 
-  // if (accountManager.currentAccount.currentBalance > transferAmount.value && reciever) {
-  //   accountManager.currentAccount.addNegativeMovement(transferAmount.value);
-  //   reciever.addPositiveMovement(transferAmount.value);
-  //   transferAmount.value = "";
+  // if (accountManager.currentAccount.currentBalance > transferAmountInput.value && reciever) {
+  //   accountManager.currentAccount.addNegativeMovement(transferAmountInput.value);
+  //   reciever.addPositiveMovement(transferAmountInput.value);
+  //   transferAmountInput.value = "";
   //   transferToInput.value = "";
   //   accountManager.currentAccount.renderMovements();
   //   displayCurrentBalance(accountManager.currentAccount)
