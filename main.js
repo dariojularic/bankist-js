@@ -171,27 +171,31 @@ signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // ocu dolje stavit find metodu?
   // console.log(userInput.value, pinInput.value)
-
+  const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === userInput.value) && (acc.pin === pinInput.value) )
   // const currentAccount = accoutsArray.find(acc => userName i PIN)
   // if (!currentAccount)
   //  return
-  accountManager.accountsArr.forEach(acc => {
-    // console.log(acc.userName, acc.pin)
-    if (acc.userName === userInput.value && acc.pin === parseInt(pinInput.value)) {
-      accountManager.currentAccount = acc
 
-      accountManager.currentAccount.renderMovements()
-      displayGreeting(accountManager.currentAccount)
-      displayCurrentBalance(accountManager.currentAccount)
-      displaySummaryIn(accountManager.currentAccount.allMovements)
-      displaySummaryOut(accountManager.currentAccount.allMovements)
-      displayInterestAmount(accountManager.currentAccount.interestAmount)
-      container.style.transition = "1s"
-      container.style.opacity = 1
-      userInput.value = ""
-      pinInput.value = ""
-    }
-  })
+
+    // if (acc.userName !== userInput.value || acc.pin !== parseInt(pinInput.value)) {
+  if (!currentAccount) {
+    Toastify({
+      text: "The bank doesn't allow that loan!",
+      duration: 3000
+    }).showToast();
+    return
+  }
+  accountManager.currentAccount = acc
+  accountManager.currentAccount.renderMovements()
+  displayGreeting(accountManager.currentAccount)
+  displayCurrentBalance(accountManager.currentAccount)
+  displaySummaryIn(accountManager.currentAccount.allMovements)
+  displaySummaryOut(accountManager.currentAccount.allMovements)
+  displayInterestAmount(accountManager.currentAccount.interestAmount)
+  container.style.transition = "1s"
+  container.style.opacity = 1
+  userInput.value = ""
+  pinInput.value = ""
 })
 
 transferForm.addEventListener("submit", (event) => {
