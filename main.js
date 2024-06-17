@@ -218,63 +218,51 @@ signInForm.addEventListener("submit", (event) => {
 
 transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
-  const reciever = accountManager.accountsArr.find(acc => acc.userName === transferToInput.value)
-// posebna metoda isValidBalance
-  // if (nesto)
-    // return
-  // fafmaoegfa
-  if (accountManager.currentAccount.currentBalance < transferAmountInput.value || !reciever)  {
+  const reciever = accountManager.accountsArr.find(acc => (acc.userName === transferTo) && (acc.userName !== accountManager.currentAccount.userName))
+  if (accountManager.currentAccount.currentBalance < transferAmount || !reciever)  {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
     }).showToast();
     return
   }
-  accountManager.currentAccount.addNegativeMovement(transferAmountInput.value);
-  reciever.addPositiveMovement(transferAmountInput.value);
+  accountManager.currentAccount.addNegativeMovement(transferAmount);
+  reciever.addPositiveMovement(transferAmount);
   transferAmountInput.value = "";
   transferToInput.value = "";
   accountManager.currentAccount.renderMovements();
   displayCurrentBalance(accountManager.currentAccount)
-
-  // if (accountManager.currentAccount.currentBalance > transferAmountInput.value && reciever) {
-  //   accountManager.currentAccount.addNegativeMovement(transferAmountInput.value);
-  //   reciever.addPositiveMovement(transferAmountInput.value);
-  //   transferAmountInput.value = "";
-  //   transferToInput.value = "";
-  //   accountManager.currentAccount.renderMovements();
-  //   displayCurrentBalance(accountManager.currentAccount)
-  // }
 })
 
-
-// eventListener za svaki input
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log(accountManager.currentAccount.currentBalance)
-  if (parseInt(loanAmountInput.value) > 0 && parseInt(loanAmountInput.value) <= accountManager.currentAccount.currentBalance) {
-    setTimeout(() => {
-      accountManager.currentAccount.addPositiveMovement(parseInt(loanAmountInput.value))  
-      displayCurrentBalance(accountManager.currentAccount)
-      accountManager.currentAccount.renderMovements()
-      loanAmountInput.value = ""
-      console.log(accountManager.currentAccount.allMovements)
-    }, 3000)
-  } else {
+  if (parseInt(loanAmount) < 0 || parseInt(loanAmount) > accountManager.currentAccount.currentBalance) {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
     }).showToast();
+    return
   }
+  setTimeout(() => {
+    accountManager.currentAccount.addPositiveMovement(parseInt(loanAmount))  
+    displayCurrentBalance(accountManager.currentAccount)
+    accountManager.currentAccount.renderMovements()
+    loanAmountInput.value = ""
+  }, 2000)
 })
 
 closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // jel mi trebaju tu dole get metode za userName i Pin?
-  if (closeUserInput.value === accountManager.currentAccount.userName && parseInt(closePinInput.value) === accountManager.currentAccount.pin) {
-    accountManager.deleteAccount();
-    accountManager.currentAccount = "";
-    closePinInput.value = "";
-    closeUserInput.value = "";
-  }
+  if (closeUser !== accountManager.currentAccount.userName || parseInt(closePin) !== accountManager.currentAccount.pin) {
+    Toastify({
+      text: "The bank doesn't allow that loan!",
+      duration: 3000
+    }).showToast();
+    return
+  } 
+  accountManager.deleteAccount();
+  accountManager.currentAccount = "";
+  closePinInput.value = "";
+  closeUserInput.value = "";
 })
