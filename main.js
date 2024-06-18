@@ -245,11 +245,14 @@ loanForm.addEventListener("submit", (event) => {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000,
-      // gravity: "bottom",
-      // position: "right",
-      // style: {
-      //   background: "red"
-      // }
+      gravity: "bottom",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontSize: "24px"
+      }
+      // doradit tostify
     }).showToast();
     return
   }
