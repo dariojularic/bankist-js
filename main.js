@@ -102,7 +102,7 @@ class Account{
   renderMovements() {
     movementsList.innerHTML = ""
     this.movements.forEach(movement => {
-      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${movement.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€</li>`
+      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${movement.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
     })
   }

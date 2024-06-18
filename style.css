@@ -64,6 +64,7 @@ body {
   border-radius: 8px;
   font-size: 12px;
   color: white;
+  font-weight: 600;
 }
   
 .red-background {
@@ -72,6 +73,7 @@ body {
   font-size: 12px;
   border-radius: 8px;
   color: white;
+  font-weight: 600;
 }
 
 .transfer-money {
