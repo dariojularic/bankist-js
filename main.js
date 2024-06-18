@@ -173,19 +173,20 @@ accounts.forEach(acc => {
 accountManager.createUserNames()
 
 // zasto je ovo bolja praksa? jel brze ako je u variabli nego ako stalno idemo .value?
+// gdje stavit ove eventListenere, jel ovdje ili iznad svakog eventListenera sa submit trigerom
 transferToInput.addEventListener("input", () => transferTo = transferToInput.value)
 
-transferAmountInput.addEventListener("input", () => transferAmount = transferAmountInput.value)
+transferAmountInput.addEventListener("input", () => transferAmount = parseInt(transferAmountInput.value))
 
-loanAmountInput.addEventListener("input", () => loanAmount = loanAmountInput.value)
+loanAmountInput.addEventListener("input", () => loanAmount = parseInt(loanAmountInput.value))
 
 closeUserInput.addEventListener("input", () => closeUser = closeUserInput.value)
 
-closePinInput.addEventListener("input", () => closePin = closePinInput.value)
+closePinInput.addEventListener("input", () => closePin = parseInt(closePinInput.value))
 
 signUsernameInput.addEventListener("input", () => signUsername = signUsernameInput.value)
 
-signPinInput.addEventListener("input", () => signPin = signPinInput.value)
+signPinInput.addEventListener("input", () => signPin = parseInt(signPinInput.value))
 
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -236,7 +237,7 @@ transferForm.addEventListener("submit", (event) => {
 
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (parseInt(loanAmount) < 0 || parseInt(loanAmount) > accountManager.currentAccount.currentBalance) {
+  if (loanAmount < 0 || loanAmount > accountManager.currentAccount.currentBalance) {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
@@ -244,7 +245,7 @@ loanForm.addEventListener("submit", (event) => {
     return
   }
   setTimeout(() => {
-    accountManager.currentAccount.addPositiveMovement(parseInt(loanAmount))  
+    accountManager.currentAccount.addPositiveMovement(loanAmount)  
     displayCurrentBalance(accountManager.currentAccount)
     accountManager.currentAccount.renderMovements()
     loanAmountInput.value = ""
@@ -253,8 +254,7 @@ loanForm.addEventListener("submit", (event) => {
 
 closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  // jel mi trebaju tu dole get metode za userName i Pin?
-  if (closeUser !== accountManager.currentAccount.userName || parseInt(closePin) !== accountManager.currentAccount.pin) {
+  if (closeUser !== accountManager.currentAccount.userName || closePin !== accountManager.currentAccount.pin) {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
@@ -265,4 +265,5 @@ closeAccountForm.addEventListener("submit", (event) => {
   accountManager.currentAccount = "";
   closePinInput.value = "";
   closeUserInput.value = "";
+  container.style.opacity = 0;
 })
