@@ -1,6 +1,7 @@
 import './style.css'
 import accounts from './data';
 import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 import numeral from 'numeral';
 
 const greeting = document.querySelector(".greeting");
@@ -89,8 +90,8 @@ class Account{
       }) 
     } else {
       Toastify({
-        text: "The bank doesn't allow that loan!",
-        duration: 3000
+        text: "The bank doesn't allow that loan222!",
+        duration: 3000,
       }).showToast();
     }
 
@@ -243,7 +244,12 @@ loanForm.addEventListener("submit", (event) => {
   if (loanAmount < 0 || loanAmount > accountManager.currentAccount.currentBalance) {
     Toastify({
       text: "The bank doesn't allow that loan!",
-      duration: 3000
+      duration: 3000,
+      // gravity: "bottom",
+      // position: "right",
+      // style: {
+      //   background: "red"
+      // }
     }).showToast();
     return
   }
