@@ -24,6 +24,7 @@ const closePinInput = document.querySelector(".close-account-pin");
 const loanForm = document.querySelector(".loan-form");
 const loanAmountInput = document.querySelector(".loan-amount-input");
 const container = document.querySelector(".container");
+const sortBtn = document.querySelector(".sort-btn");
 let transferTo = "";
 let transferAmount = "";
 let loanAmount = "";
@@ -279,4 +280,11 @@ closeAccountForm.addEventListener("submit", (event) => {
   closePinInput.value = "";
   closeUserInput.value = "";
   container.style.opacity = 0;
+})
+
+sortBtn.addEventListener("click", () => {
+  // console.log(accountManager.currentAccount.allMovements)
+  // console.log(accountManager.currentAccount.allMovements.sort((a, b) => a - b))
+  accountManager.currentAccount.allMovements.sort((a, b) => a - b)
+  accountManager.currentAccount.renderMovements()
 })
