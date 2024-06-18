@@ -12,6 +12,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "numeral": "^2.0.6",
     "toastify-js": "^1.12.0"
   }
 }
