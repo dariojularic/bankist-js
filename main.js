@@ -221,7 +221,7 @@ signInForm.addEventListener("submit", (event) => {
 transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => (acc.userName === transferTo) && (acc.userName !== accountManager.currentAccount.userName))
-  if (accountManager.currentAccount.currentBalance < transferAmount || !reciever)  {
+  if (accountManager.currentAccount.currentBalance < transferAmount || !reciever || transferAmount < 0)  {
     Toastify({
       text: "The bank doesn't allow that loan!",
       duration: 3000
