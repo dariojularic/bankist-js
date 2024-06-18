@@ -58,23 +58,25 @@
             <label for="close-account-user">Confirm user</label>
           </div>
           <div class="close-pin-div">
-            <input type="text" id="close-account-pin" class="close-account-pin">
+            <input type="text" id="close-account-pin" class="close-account-pin" maxlength="4">
             <label for="close-account-pin">Confirm PIN</label>
           </div>
           <button class="user-btn"><i class="fa-solid fa-arrow-right"></i></button>
         </form>
       </div>
       <div class="summary">
-        <p>IN</p>
+        <p class="summary-p">IN</p>
         <p class="summary-in-value"></p>
-        <p>OUT</p>
+        <p class="summary-p">OUT</p>
         <p class="summary-out-value"></p>
-        <p>INTEREST</p>
+        <p class="summary-p">INTEREST</p>
         <p class="interest-value"></p>
         <button class="sort-btn">SORT</button>
       </div>
       <p class="logout-timer"></p>
     </div>
+    <script src="numeral.min.js"></script>
+
     <script type="module" src="/main.js"></script>
   </body>
 </html>

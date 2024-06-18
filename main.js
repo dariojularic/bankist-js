@@ -1,6 +1,7 @@
 import './style.css'
 import accounts from './data';
-import Toastify from 'toastify-js'
+import Toastify from 'toastify-js';
+import numeral from 'numeral';
 
 const greeting = document.querySelector(".greeting");
 const balanceDate = document.querySelector(".balance-date");
@@ -153,15 +154,15 @@ function displayCurrentBalance(account) {
 }
 
 function displaySummaryIn(positiveMovements) {
-  inValue.textContent = `${positiveMovements} €`
+  inValue.textContent = `${numeral(positiveMovements).format("0,0")} €`
 }
 
 function displaySummaryOut(negativeMovements) {
-  outValue.textContent = `${negativeMovements} €`
+  outValue.textContent = `${numeral(Math.abs(negativeMovements)).format("0,0")} €`
 }
 
 function displayInterestAmount(amount) {
-  interestValue.textContent = amount
+  interestValue.textContent = `${numeral(amount).format("0,0")} €`
 }
 
 const accountManager = new AccountManager();
@@ -232,7 +233,8 @@ transferForm.addEventListener("submit", (event) => {
   transferAmountInput.value = "";
   transferToInput.value = "";
   accountManager.currentAccount.renderMovements();
-  displayCurrentBalance(accountManager.currentAccount)
+  displayCurrentBalance(accountManager.currentAccount);
+  displaySummaryOut(accountManager.currentAccount.getNegativeMovements());
 })
 
 loanForm.addEventListener("submit", (event) => {
@@ -246,10 +248,11 @@ loanForm.addEventListener("submit", (event) => {
     return
   }
   setTimeout(() => {
-    accountManager.currentAccount.addPositiveMovement(loanAmount)  
-    displayCurrentBalance(accountManager.currentAccount)
-    accountManager.currentAccount.renderMovements()
-    displayInterestAmount(accountManager.currentAccount.interestAmount)
+    accountManager.currentAccount.addPositiveMovement(loanAmount);  
+    accountManager.currentAccount.renderMovements();
+    displayCurrentBalance(accountManager.currentAccount);
+    displayInterestAmount(accountManager.currentAccount.interestAmount);
+    displaySummaryIn(accountManager.currentAccount.getPositiveMovements());
   }, 2000)
 })
 
