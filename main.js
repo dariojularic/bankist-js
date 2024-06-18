@@ -68,7 +68,7 @@ class Account{
     // let result = 0;
     // this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
     // return result * this.interestRate
-    return this.getPositiveMovements() * this.interestRate
+    return this.getPositiveMovements() * this.interestRate - this.getPositiveMovements()
   }
   
   addPositiveMovement(amount) {
@@ -208,8 +208,8 @@ signInForm.addEventListener("submit", (event) => {
   accountManager.currentAccount.renderMovements();
   displayGreeting(accountManager.currentAccount);
   displayCurrentBalance(accountManager.currentAccount);
-  displaySummaryIn(accountManager.currentAccount.allMovements);
-  displaySummaryOut(accountManager.currentAccount.allMovements);
+  displaySummaryIn(accountManager.currentAccount.getPositiveMovements());
+  displaySummaryOut(accountManager.currentAccount.getNegativeMovements());
   displayInterestAmount(accountManager.currentAccount.interestAmount);
   container.style.transition = "1s";
   container.style.opacity = 1;
@@ -237,6 +237,7 @@ transferForm.addEventListener("submit", (event) => {
 
 loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  loanAmountInput.value = ""
   if (loanAmount < 0 || loanAmount > accountManager.currentAccount.currentBalance) {
     Toastify({
       text: "The bank doesn't allow that loan!",
@@ -248,7 +249,7 @@ loanForm.addEventListener("submit", (event) => {
     accountManager.currentAccount.addPositiveMovement(loanAmount)  
     displayCurrentBalance(accountManager.currentAccount)
     accountManager.currentAccount.renderMovements()
-    loanAmountInput.value = ""
+    displayInterestAmount(accountManager.currentAccount.interestAmount)
   }, 2000)
 })
 

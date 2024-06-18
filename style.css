@@ -15,11 +15,13 @@ body {
 }
 
 .fa-building-columns {
-  font-size: 40px;
+  font-size: 48px;
+  color: #373737;
 }
 
 .greeting {
   font-weight: 600;
+  width: 320px;
 }
 
 .container {
@@ -47,6 +49,10 @@ body {
   justify-content: space-between;
 }
   
+.sign-in {
+  width: 320px;
+}
+
 .loan-form {
   display: flex;
 
@@ -71,7 +77,7 @@ body {
 .transfer-money {
   grid-area: 2 / 2 / 3 / 3; 
   background-image: linear-gradient(to top left, #ffb003, #ffcb03);
-  padding: 24px 32px;
+  padding: 20px 28px;
   border-radius: 16px;
 }
 
@@ -87,14 +93,14 @@ body {
 .request-loan {
   grid-area: 3 / 2 / 4 / 3; 
   background-image: linear-gradient(to top left, #39b385, #9be15d);
-  padding: 24px 32px;
+  padding: 20px 28px;
   border-radius: 16px;
 }
   
 .close-account {
   grid-area: 4 / 2 / 5 / 3; 
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
-  padding: 24px 32px;
+  padding: 20px 28px;
   border-radius: 16px;
 }
 
@@ -151,11 +157,11 @@ body {
 
 input {
   width: 120px;
-  border-radius: 16px;
+  border-radius: 12px;
   height: 32px;
   border: 1px solid gray;
   background-color: rgba(255, 255, 255, 0.4);
-  padding-left: 8px;
+  padding: 0 8px;
 }
 
 .user-btn {
@@ -184,6 +190,8 @@ li {
 
 h4 {
   margin: 0;
+  font-size: 22px;
+  margin-bottom: 8px;
 }
 
 .input-label-loan {
