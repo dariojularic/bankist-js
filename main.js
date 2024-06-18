@@ -283,6 +283,7 @@ closeAccountForm.addEventListener("submit", (event) => {
 })
 
 sortBtn.addEventListener("click", () => {
+  const normalArray = accountManager.currentAccount.allMovements
   // console.log(accountManager.currentAccount.allMovements)
   // console.log(accountManager.currentAccount.allMovements.sort((a, b) => a - b))
   accountManager.currentAccount.allMovements.sort((a, b) => a - b)
