@@ -108,7 +108,7 @@ class Account{
   renderMovements() {
     movementsList.innerHTML = ""
     this.movements.forEach(movement => {
-      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${movement.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</li>`
+      const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${numeral(movement).format("0,0")} €</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
     })
   }
@@ -153,10 +153,7 @@ function displayGreeting(account) {
 }
  
 function displayCurrentBalance(account) {
-  balanceValue.textContent = `${account.currentBalance.toLocaleString("de-DE", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  })} €`
+  balanceValue.textContent = `${numeral(account.currentBalance).format("0,0.00")} €`
 }
 
 function displaySummaryIn(positiveMovements) {
