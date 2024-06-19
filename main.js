@@ -32,6 +32,9 @@ let closeUser = "";
 let closePin = "";
 let signUsername = "";
 let signPin = "";
+let arraySorted = false;
+let normalArray;
+
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
@@ -43,7 +46,11 @@ class Account{
   }
 
   get allMovements() {
-    return this.movements
+    return this.movements;
+  }
+
+  set allMovements(newMovements) {
+    return this.movements = newMovements;
   }
 
   get currentBalance() {
@@ -65,12 +72,8 @@ class Account{
     this.movements.filter(movement => movement < 0).forEach(movement => result += movement)
     return result;
   }  
-  // get funkcia koja uzima sve pozitivne movementse i zbraja ih i vraca
 
   get interestAmount() {
-    // let result = 0;
-    // this.movements.filter(movement => movement > 0).forEach(movement => result += movement)
-    // return result * this.interestRate
     return this.getPositiveMovements() * this.interestRate - this.getPositiveMovements()
   }
   
@@ -82,23 +85,24 @@ class Account{
     this.movements.push(-amount)
   }
 
+
+  // jel mi treba requestLoan ili sve radim preko forme?
   requestLoan(amount) {
+    console.log("tostify")
     if (amount < this.getPositiveMovements()) {
-      const interest = (amount * this.interestRate) - amount
-      setTimeout(3000, () => {
+      // const interest = (amount * this.interestRate) - amount
+      setTimeout(() => {
         this.movements.push(amount)
         // ovdje treba ubacit interestValue ako cu ga koristit
-      }) 
+      }, 3000) 
+      console.log("tostify")
     } else {
+      console.log("tostify")
       Toastify({
-        text: "The bank doesn't allow that loan222!",
+        text: "The bank doesn't allow that loan!",
         duration: 3000,
       }).showToast();
     }
-
-    // loan ne moze biti veci od in sekcije
-    // setTimeout(3000, () => this.movements.push(amount))
-    // ubacit interestRaten
   }
 
   renderMovements() {
@@ -193,17 +197,18 @@ signPinInput.addEventListener("input", () => signPin = parseInt(signPinInput.val
 
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  // ocu dolje stavit find metodu?
-  // console.log(userInput.value, pinInput.value)
   const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === signUsername) && (acc.pin === signPin))
-  // const currentAccount = accoutsArray.find(acc => userName i PIN)
-  // if (!currentAccount)
-  //  return
-    // if (acc.userName !== userInput.value || acc.pin !== parseInt(pinInput.value)) {
   if (!currentAccount) {
     Toastify({
-      text: "The bank doesn't allow that loan!",
-      duration: 3000
+      text: "Username or PIN was incorrect",
+      duration: 3000,
+      gravity: "bottom",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontSize: "24px"
+      }
     }).showToast();
     return
   }
@@ -224,9 +229,17 @@ transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => (acc.userName === transferTo) && (acc.userName !== accountManager.currentAccount.userName))
   if (accountManager.currentAccount.currentBalance < transferAmount || !reciever || transferAmount < 0)  {
+    // kako pokazat poruku za sva 3 slucaja, nemas dovoljno para, negativna transakcija, nema receivera??
     Toastify({
-      text: "The bank doesn't allow that loan!",
-      duration: 3000
+      text: "You can't do that!",
+      duration: 3000,
+      gravity: "bottom",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontSize: "24px"
+      }
     }).showToast();
     return
   }
@@ -253,7 +266,6 @@ loanForm.addEventListener("submit", (event) => {
         background: "linear-gradient(to right, #00b09b, #96c93d)",
         fontSize: "24px"
       }
-      // doradit tostify
     }).showToast();
     return
   }
@@ -270,8 +282,15 @@ closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
   if (closeUser !== accountManager.currentAccount.userName || closePin !== accountManager.currentAccount.pin) {
     Toastify({
-      text: "The bank doesn't allow that loan!",
-      duration: 3000
+      text: "Username or PIN was incorrect!",
+      duration: 3000,
+      gravity: "bottom",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+        fontSize: "24px"
+      }
     }).showToast();
     return
   } 
@@ -283,9 +302,13 @@ closeAccountForm.addEventListener("submit", (event) => {
 })
 
 sortBtn.addEventListener("click", () => {
-  const normalArray = accountManager.currentAccount.allMovements
-  // console.log(accountManager.currentAccount.allMovements)
-  // console.log(accountManager.currentAccount.allMovements.sort((a, b) => a - b))
-  accountManager.currentAccount.allMovements.sort((a, b) => a - b)
-  accountManager.currentAccount.renderMovements()
+  if (!arraySorted) {
+    accountManager.currentAccount.allMovements.sort((a, b) => a - b);
+    accountManager.currentAccount.renderMovements();
+    arraySorted = true;
+    } else {
+    accountManager.currentAccount.allMovements.sort((a, b) => b - a);
+    accountManager.currentAccount.renderMovements();
+    arraySorted = false;
+  }
 })
