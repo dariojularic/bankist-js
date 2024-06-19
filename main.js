@@ -5,13 +5,11 @@ import "toastify-js/src/toastify.css";
 import numeral from 'numeral';
 
 const greeting = document.querySelector(".greeting");
-const balanceDate = document.querySelector(".balance-date");
 const balanceValue = document.querySelector(".balance-value");
 const movementsList = document.querySelector(".movements-list");
 const inValue = document.querySelector(".summary-in-value");
 const outValue = document.querySelector(".summary-out-value");
 const interestValue = document.querySelector(".interest-value");
-const timer = document.querySelector(".logout-timer");
 const signInForm = document.querySelector(".sign-in");
 const signUsernameInput = document.querySelector(".user-input");
 const signPinInput = document.querySelector(".pin-input");
@@ -25,6 +23,7 @@ const loanForm = document.querySelector(".loan-form");
 const loanAmountInput = document.querySelector(".loan-amount-input");
 const container = document.querySelector(".container");
 const sortBtn = document.querySelector(".sort-btn");
+
 let transferTo = "";
 let transferAmount = "";
 let loanAmount = "";
@@ -32,9 +31,14 @@ let closeUser = "";
 let closePin = "";
 let signUsername = "";
 let signPin = "";
-let arraySorted = false;
-let normalArray;
 
+transferToInput.addEventListener("input", () => transferTo = transferToInput.value)
+transferAmountInput.addEventListener("input", () => transferAmount = parseInt(transferAmountInput.value))
+loanAmountInput.addEventListener("input", () => loanAmount = parseInt(loanAmountInput.value))
+closeUserInput.addEventListener("input", () => closeUser = closeUserInput.value)
+closePinInput.addEventListener("input", () => closePin = parseInt(closePinInput.value))
+signUsernameInput.addEventListener("input", () => signUsername = signUsernameInput.value)
+signPinInput.addEventListener("input", () => signPin = parseInt(signPinInput.value))
 
 class Account{
   constructor(fullName, movements, interestRate, pin) {
@@ -43,6 +47,7 @@ class Account{
     this.movements = movements;
     this.interestRate = interestRate;
     this.pin = pin;
+    this.isSorted = false;
   }
 
   get allMovements() {
@@ -85,29 +90,12 @@ class Account{
     this.movements.push(-amount)
   }
 
-
-  // jel mi treba requestLoan ili sve radim preko forme?
-  requestLoan(amount) {
-    console.log("tostify")
-    if (amount < this.getPositiveMovements()) {
-      // const interest = (amount * this.interestRate) - amount
-      setTimeout(() => {
-        this.movements.push(amount)
-        // ovdje treba ubacit interestValue ako cu ga koristit
-      }, 3000) 
-      console.log("tostify")
-    } else {
-      console.log("tostify")
-      Toastify({
-        text: "The bank doesn't allow that loan!",
-        duration: 3000,
-      }).showToast();
-    }
-  }
-
   renderMovements() {
+    const copyMovements = [...this.movements]
+    const sortedMovements = copyMovements.sort((a, b) => a - b);
+    const currentMovements = this.isSorted ? sortedMovements : this.movements;
     movementsList.innerHTML = ""
-    this.movements.forEach(movement => {
+    currentMovements.forEach(movement => {
       const html = `<li><span class="${movement > 0 ? "green-background" : "red-background"}"> ${this.movements.indexOf(movement) + 1} ${movement > 0 ? "DEPOSIT" : "WITHDRAWAL"}</span> ${numeral(movement).format("0,0")} €</li>`
       movementsList.insertAdjacentHTML("afterbegin", html)
     })
@@ -131,6 +119,10 @@ class AccountManager{
 
   get currentAccount() {
     return this.acctiveAccount;
+  }
+
+  sortArray() {
+
   }
 
   createUserNames() {
@@ -176,22 +168,6 @@ accounts.forEach(acc => {
 
 accountManager.createUserNames()
 
-// zasto je ovo bolja praksa? jel brze ako je u variabli nego ako stalno idemo .value?
-// gdje stavit ove eventListenere, jel ovdje ili iznad svakog eventListenera sa submit trigerom
-transferToInput.addEventListener("input", () => transferTo = transferToInput.value)
-
-transferAmountInput.addEventListener("input", () => transferAmount = parseInt(transferAmountInput.value))
-
-loanAmountInput.addEventListener("input", () => loanAmount = parseInt(loanAmountInput.value))
-
-closeUserInput.addEventListener("input", () => closeUser = closeUserInput.value)
-
-closePinInput.addEventListener("input", () => closePin = parseInt(closePinInput.value))
-
-signUsernameInput.addEventListener("input", () => signUsername = signUsernameInput.value)
-
-signPinInput.addEventListener("input", () => signPin = parseInt(signPinInput.value))
-
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === signUsername) && (acc.pin === signPin))
@@ -226,7 +202,6 @@ transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => (acc.userName === transferTo) && (acc.userName !== accountManager.currentAccount.userName))
   if (accountManager.currentAccount.currentBalance < transferAmount || !reciever || transferAmount < 0)  {
-    // kako pokazat poruku za sva 3 slucaja, nemas dovoljno para, negativna transakcija, nema receivera??
     Toastify({
       text: "You can't do that!",
       duration: 3000,
@@ -299,13 +274,6 @@ closeAccountForm.addEventListener("submit", (event) => {
 })
 
 sortBtn.addEventListener("click", () => {
-  if (!arraySorted) {
-    accountManager.currentAccount.allMovements.sort((a, b) => a - b);
-    accountManager.currentAccount.renderMovements();
-    arraySorted = true;
-    } else {
-    accountManager.currentAccount.allMovements.sort((a, b) => b - a);
-    accountManager.currentAccount.renderMovements();
-    arraySorted = false;
-  }
+  accountManager.currentAccount.isSorted = !accountManager.currentAccount.isSorted
+  accountManager.currentAccount.renderMovements()
 })
