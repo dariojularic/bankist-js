@@ -31,6 +31,7 @@ let closeUser = "";
 let closePin = "";
 let signUsername = "";
 let signPin = "";
+let errorMessage = "";
 
 transferToInput.addEventListener("input", () => transferTo = transferToInput.value)
 transferAmountInput.addEventListener("input", () => transferAmount = parseInt(transferAmountInput.value))
@@ -160,6 +161,20 @@ function displayInterestAmount(amount) {
   interestValue.textContent = `${numeral(amount).format("0,0")} €`
 }
 
+function toastify() {
+  Toastify({
+    text: errorMessage,
+    duration: 3000,
+    gravity: "bottom",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "linear-gradient(to right, #00b09b, #96c93d)",
+      fontSize: "24px"
+    }
+  }).showToast();
+}
+
 const accountManager = new AccountManager();
 accounts.forEach(acc => {
   const account = new Account(acc.owner, acc.movements, acc.interestRate, acc.pin)
@@ -172,17 +187,8 @@ signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const currentAccount = accountManager.accountsArr.find(acc => (acc.userName === signUsername) && (acc.pin === signPin))
   if (!currentAccount) {
-    Toastify({
-      text: "Username or PIN was incorrect",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      stopOnFocus: true,
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-        fontSize: "24px"
-      }
-    }).showToast();
+    errorMessage = "Username or PIN was incorrect"
+    toastify()
     return
   }
   accountManager.currentAccount = currentAccount;
@@ -202,17 +208,8 @@ transferForm.addEventListener("submit", (event) => {
   event.preventDefault()
   const reciever = accountManager.accountsArr.find(acc => (acc.userName === transferTo) && (acc.userName !== accountManager.currentAccount.userName))
   if (accountManager.currentAccount.currentBalance < transferAmount || !reciever || transferAmount < 0)  {
-    Toastify({
-      text: "You can't do that!",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      stopOnFocus: true,
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-        fontSize: "24px"
-      }
-    }).showToast();
+    errorMessage = "You can't do that!";
+    toastify()
     return
   }
   accountManager.currentAccount.addNegativeMovement(transferAmount);
@@ -228,17 +225,8 @@ loanForm.addEventListener("submit", (event) => {
   event.preventDefault();
   loanAmountInput.value = ""
   if (loanAmount < 0 || loanAmount > accountManager.currentAccount.currentBalance) {
-    Toastify({
-      text: "The bank doesn't allow that loan!",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      stopOnFocus: true,
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-        fontSize: "24px"
-      }
-    }).showToast();
+    errorMessage = "The bank doesn't allow that loan!"
+    toastify()
     return
   }
   setTimeout(() => {
@@ -253,17 +241,8 @@ loanForm.addEventListener("submit", (event) => {
 closeAccountForm.addEventListener("submit", (event) => {
   event.preventDefault();
   if (closeUser !== accountManager.currentAccount.userName || closePin !== accountManager.currentAccount.pin) {
-    Toastify({
-      text: "Username or PIN was incorrect!",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      stopOnFocus: true,
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-        fontSize: "24px"
-      }
-    }).showToast();
+    errorMessage  = "Username or PIN was incorrect!";
+    toastify()
     return
   } 
   accountManager.deleteAccount();
