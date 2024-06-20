@@ -239,7 +239,3 @@ label {
   align-self: center;
   font-size: 16px;
 }
-.input-label-loan {
-  display: flex;
-  flex-direction: column;
-}
