@@ -234,8 +234,3 @@ label {
   display: flex;
   flex-direction: column;
 }
-
-label {
-  align-self: center;
-  font-size: 16px;
-}
