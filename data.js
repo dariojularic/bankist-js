@@ -29,11 +29,7 @@ const account1 = {
   const accounts = [account1, account2, account3, account4];
   export default accounts;
 
-
-
-
-
-// softskills nadopisat u cv, agile praktiken
+// agile praktiken
 // smanjit berufserfahrung i povecat webdev stvari, dodat sliku, dodat stranicu 
 // dizajnerski bewerbung mora bit slicniji cvu
 // zuversuchlich* solides* zu leisten*
